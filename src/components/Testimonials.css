@@ -1,0 +1,55 @@
+/* Example: Responsive styles */
+.slick-slide {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .slick-slide {
+    width: 50%; /* Adjust as needed */
+  }
+}
+
+/* Testimonials.css */
+
+/* Testimonials.css */
+
+/* Testimonials.css */
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #009db0;
+  border-radius: 8px;
+}
+
+.testimonial-card img {
+  border-radius: 50%;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.testimonial-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #ffffffb3;
+}
+
+.testimonial-card p {
+  font-size: 14px;
+  color: #ffffffb3;
+  font-weight: 300;
+}
+
+.main-div {
+  /* display: grid; */
+  /* flex-direction: row; */
+}
