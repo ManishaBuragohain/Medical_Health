@@ -56,6 +56,7 @@ const items = [
 const LandingPage: React.FC = () => {
   const [urlCity, setUrlCity] = useState<string>("");
   const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [showErrorState, setShowErrorState] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     phone: "",
@@ -88,6 +89,7 @@ const LandingPage: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setShowErrorState(false);
     e.preventDefault();
     if (urlCity) {
       formData.city = urlCity;
@@ -112,6 +114,9 @@ const LandingPage: React.FC = () => {
         experience: "",
       });
       setDoctors(result.doctors);
+      if (result.message) {
+        setShowErrorState(true);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -121,7 +126,6 @@ const LandingPage: React.FC = () => {
   return (
     <div className="container">
       <header className="header">
-        {/* <h1>Fix Health</h1> */}
         <img
           src="https://ik.imagekit.io/tcfp7i31d/logo_with_yp_white_6p2ZETYLi.svg"
           alt=""
@@ -131,86 +135,96 @@ const LandingPage: React.FC = () => {
         <img src={banner} alt="Hero Image" />
 
         {doctors.length === 0 ? (
-          <div className="form-container">
-            <div>
-              <h2>Book a Consultation</h2>
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <input
-                    type="number"
-                    name="age"
-                    placeholder="Age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Company"
-                    value={formData.company}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <textarea
-                    name="chiefComplaints"
-                    placeholder="Chief Complaints"
-                    value={formData.chiefComplaints}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                {parseInt(formData.age, 10) >= 40 && (
-                  <div className="checkbox-container">
+          !showErrorState ? (
+            <div className="form-container">
+              <div>
+                <h2>Book a Consultation</h2>
+                <form onSubmit={handleSubmit}>
+                  <div>
                     <input
-                      type="checkbox"
-                      name="experience"
-                      id="experienceCheckbox"
-                      checked={formData.experience ? true : false}
-                      onChange={(event) => {
-                        handleChange(event);
-                      }}
+                      type="text"
+                      name="name"
+                      placeholder="Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
                     />
-                    <label htmlFor="experienceCheckbox">
-                      Previous physiotherapy experience
-                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone number"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
-                )}
 
-                <button type="submit" className="submit-button">
-                  Find Best Available Doctors
-                </button>
-              </form>
+                  <div>
+                    <input
+                      type="number"
+                      name="age"
+                      placeholder="Age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="company"
+                      placeholder="Company"
+                      value={formData.company}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <textarea
+                      name="chiefComplaints"
+                      placeholder="Chief Complaints"
+                      value={formData.chiefComplaints}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  {parseInt(formData.age, 10) >= 40 && (
+                    <div className="checkbox-container">
+                      <input
+                        type="checkbox"
+                        name="experience"
+                        id="experienceCheckbox"
+                        checked={formData.experience ? true : false}
+                        onChange={(event) => {
+                          handleChange(event);
+                        }}
+                      />
+                      <label htmlFor="experienceCheckbox">
+                        Previous physiotherapy experience
+                      </label>
+                    </div>
+                  )}
+
+                  <button type="submit" className="submit-button">
+                    Find Best Available Doctors
+                  </button>
+                </form>
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="doctor-container">
+                <h2 className="doctor-list-heading">
+                  Oops! No doctors available in this area.
+                </h2>
+              </div>
+            </>
+          )
         ) : (
           <>
             <div className="doctor-container">
@@ -234,7 +248,6 @@ const LandingPage: React.FC = () => {
       </div>
       <div className="feedback">
         <h2>Real stories, real results</h2>
-        {/* <FeedbackSlider /> */}
         <TestimonialSlider />
       </div>
     </div>
